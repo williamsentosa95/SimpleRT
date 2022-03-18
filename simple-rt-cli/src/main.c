@@ -81,11 +81,13 @@ int main(int argc, char *argv[])
     libusb_init(NULL);
 
     signal(SIGINT, exit_signal_handler);
+    config->interface = "ingress";
+    config->nameserver = "127.0.1.1";
 
     while ((rc = getopt (argc, argv, "hdi:n:")) != -1) {
         switch (rc) {
         case 'h':
-            printf("usage: sudo %s [-h] [-i interface] [-n nameserver|\"local\" ]\n"
+            printf("usage: sudo %s [-h] [interface] [-n nameserver|\"local\" ]\n"
                     "default params: -i %s -n %s\n",
                     argv[0],
                     config->interface,
@@ -110,6 +112,7 @@ int main(int argc, char *argv[])
             return EXIT_FAILURE;
         }
     }
+
 
     if (is_instance_already_running()) {
         fprintf(stderr, "One instance of SimpleRT is already running!\n");
